@@ -23,7 +23,12 @@ function App() {
         let pokeData = await fetch(`https://pokeapi.co/api/v2/pokemon-form/${getRandomPokeIndex()}/`, {mode: 'cors'})
         let pokeDataJSON = await pokeData.json()
 
-        newPokemon.name = pokeDataJSON.name
+        if (pokeDataJSON.name.indexOf('-') !== -1) {
+          let index = pokeDataJSON.name.indexOf('-')
+          newPokemon.name = pokeDataJSON.name.slice(0, index)
+        } else {
+          newPokemon.name = pokeDataJSON.name
+        }
         newPokemon.src = pokeDataJSON.sprites.front_default
 
         gameRoundArr.push(newPokemon)
