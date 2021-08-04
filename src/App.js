@@ -37,13 +37,28 @@ function App() {
     }
     
     localStorage.setItem('pokemonStorage', JSON.stringify(pokemonArr))
-    getCurrentPokemon(0)
+    getCurrentPokemon(1)
     setLoading(false)
   }
   
   function getCurrentPokemon(nthRound) {
     let currentPokemon = JSON.parse(localStorage.getItem('pokemonStorage'))
     setCurrentPokemon(currentPokemon[nthRound])
+  }
+
+  function randomizePokemonOrder() {
+    let currentPokemonCopy = [...currentPokemon]
+    let roundLength = currentPokemonCopy.length
+    
+    for (let i = 0; i < roundLength; i++) {
+      currentPokemonCopy[i].order = Math.random()
+    }
+
+    currentPokemonCopy.sort((a, b) => {
+      return a.order - b.order
+    })
+    
+    setCurrentPokemon(currentPokemonCopy)
   }
 
   useEffect(() => {
@@ -58,6 +73,7 @@ function App() {
         ? <div>Loading your randomized Pokédex...</div> 
         : <PokeCards
             currentPokemon={currentPokemon}
+            randomizePokemonOrder={randomizePokemonOrder}
           />
       }
     </div>

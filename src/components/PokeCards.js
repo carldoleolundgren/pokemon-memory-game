@@ -8,12 +8,17 @@ const styles = {
   pokeCardContainer: {
     display: 'flex',
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    marginLeft: '5%',
+    marginRight: '5%'
   },
   pokeCard: {
-    width: '163px',
+    flex: '0 0 18%',
+    float: 'left',
     textAlign: 'center',
     position: 'relative',
-    float: 'left'
+    marginBottom: '2%',
+    /* display: 'inline-block' */
   }
 }
 
@@ -23,7 +28,10 @@ const PokeCard = (props) => {
       style={styles.pokeCard}
     >
       <CardActionArea
-        onClick={() => console.log(props.name)}
+        onClick={() => {
+          console.log(props.name)
+          props.randomizePokemonOrder()
+        }}
       >
         <CardHeader title={props.name}/>
         <img src={props.src} alt={props.name}></img>
@@ -39,16 +47,20 @@ const PokeCards = (props) => {
       key={uniqid()}
       src={p.src}
       name={p.name}
+      randomizePokemonOrder={props.randomizePokemonOrder}
     />
   ))
   
   return (
-    <div
-      style={styles.pokeCard}
-    >
+    <div style={styles.pokeCardContainer}>
       {pokeCardList}
     </div>
   )
 }
 
 export default PokeCards
+
+// display cards on same line
+// add a header
+// add a counter
+// randomize the order of the pokemon on each click
