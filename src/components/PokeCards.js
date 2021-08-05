@@ -10,7 +10,8 @@ const styles = {
     justifyContent: 'space-between',
     flexWrap: 'wrap',
     marginLeft: '5%',
-    marginRight: '5%'
+    marginRight: '5%', 
+    clear: 'both'
   },
   pokeCard: {
     flex: '0 0 18%',
@@ -18,7 +19,10 @@ const styles = {
     textAlign: 'center',
     position: 'relative',
     marginBottom: '2%',
-    /* display: 'inline-block' */
+  },
+  scoreCard: {
+    flex: '0 0 22%',
+    height: '163px'
   }
 }
 
@@ -29,8 +33,7 @@ const PokeCard = (props) => {
     >
       <CardActionArea
         onClick={() => {
-          console.log(props.name)
-          props.randomizePokemonOrder()
+          props.handleClickOnPokemon(props.name)
         }}
       >
         <CardHeader title={props.name}/>
@@ -47,20 +50,38 @@ const PokeCards = (props) => {
       key={uniqid()}
       src={p.src}
       name={p.name}
-      randomizePokemonOrder={props.randomizePokemonOrder}
+      handleClickOnPokemon={props.handleClickOnPokemon}
+      
     />
   ))
   
   return (
-    <div style={styles.pokeCardContainer}>
-      {pokeCardList}
+    <div>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        
+      }}>
+        <Card style={{...styles.pokeCard, ...styles.scoreCard, marginRight: '1%' }}>
+          <CardHeader title={'Current Score'}/>
+          {props.scores.current}
+        </Card>
+        <Card style={{...styles.pokeCard, ...styles.scoreCard, marginLeft: '1%'}}>
+          <CardHeader title={'High Score'}/>
+          {props.scores.high}
+        </Card>
+      </div>
+      
+      <div style={styles.pokeCardContainer}>
+        {pokeCardList}
+      </div>
     </div>
   )
 }
 
 export default PokeCards
 
-// display cards on same line
 // add a header
-// add a counter
-// randomize the order of the pokemon on each click
+// add a counter - create a state variable to hold each current score and high score
+// // calculate current score based on whether hasBeenClicked is true or not in a pokemon object
+// // calculate high score based on whether currentScore state variable is higher than highScore

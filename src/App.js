@@ -4,6 +4,10 @@ import PokeCards from './components/PokeCards'
 function App() {
   const [currentPokemon, setCurrentPokemon] = useState([])
   const [isLoading, setLoading] = useState(true)
+  const [scores, setScores] = useState({
+    current: 0,
+    high: 0
+  })
   
   function getRandomPokeIndex() {
     return Math.floor(Math.random() * (898 - 1) + 1);
@@ -12,7 +16,7 @@ function App() {
   
   async function getAllPokemon() {
     let pokemonArr = []
-    let numOfRounds = 4;
+    let numOfRounds = 1;
     let numOfPokemonPerRound = [5, 10, 15, 20]
     setLoading(true)
     
@@ -30,6 +34,7 @@ function App() {
           newPokemon.name = pokeDataJSON.name
         }
         newPokemon.src = pokeDataJSON.sprites.front_default
+        newPokemon.hasBeenClicked = false
 
         gameRoundArr.push(newPokemon)
       }
@@ -37,7 +42,7 @@ function App() {
     }
     
     localStorage.setItem('pokemonStorage', JSON.stringify(pokemonArr))
-    getCurrentPokemon(1)
+    getCurrentPokemon(0)
     setLoading(false)
   }
   
@@ -48,17 +53,48 @@ function App() {
 
   function randomizePokemonOrder() {
     let currentPokemonCopy = [...currentPokemon]
+    
     let roundLength = currentPokemonCopy.length
+    
     
     for (let i = 0; i < roundLength; i++) {
       currentPokemonCopy[i].order = Math.random()
     }
-
+       
     currentPokemonCopy.sort((a, b) => {
       return a.order - b.order
     })
-    
+
+    return currentPokemonCopy
+  }
+
+  function updateClickedState(name, currentPokemonCopy) {
+    currentPokemonCopy.find(p => p.name === name).hasBeenClicked = true
+    console.log(currentPokemonCopy)
+
     setCurrentPokemon(currentPokemonCopy)
+  }
+
+  function updateScore(name) {
+    let current = scores.current
+    let high = scores.high
+
+    current ++
+
+    if (current > high) {
+      high = current
+    }
+
+    setScores({
+      current: current,
+      high: high
+    })
+  }
+
+  function handleClickOnPokemon(name) {
+    let currentPokemonCopy = randomizePokemonOrder()
+    updateClickedState(name, currentPokemonCopy)
+    updateScore(name)
   }
 
   useEffect(() => {
@@ -73,7 +109,9 @@ function App() {
         ? <div>Loading your randomized Pokédex...</div> 
         : <PokeCards
             currentPokemon={currentPokemon}
-            randomizePokemonOrder={randomizePokemonOrder}
+            scores={scores}
+            handleClickOnPokemon={handleClickOnPokemon}
+            
           />
       }
     </div>
