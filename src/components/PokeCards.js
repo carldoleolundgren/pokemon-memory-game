@@ -82,6 +82,3 @@ const PokeCards = (props) => {
 export default PokeCards
 
 // add a header
-// add a counter - create a state variable to hold each current score and high score
-// // calculate current score based on whether hasBeenClicked is true or not in a pokemon object
-// // calculate high score based on whether currentScore state variable is higher than highScore

@@ -1,3 +1,9 @@
+# About
+
+This project is in progress. It uses React, is built with hooks. It incorporates a free API - PokéAPI. It also uses Material-UI. In short, it is a simple memory game. The goal is to click on each Pokemon in a round one time, remembering which ones you have and have not clicked. As you click each new Pokemon, it will count your running score and your highest score yet. When you click on a Pokemon you clicked before, the current score counter will reset. A project in progress, it currently does most of this, but will have a series of 4 rounds with increasing numbers of Pokemon. The number of Pokemon in the in-progress version is limited to speed up hot reloading and reduce the number of API calls. The final version will also include instructions to players in a modal window and will give a notification when you have cycled through all of the Pokemon to win the game. It does not yet incorporate Prettier to enforce clean code standards (otherwise a single character can stop it from compiling and that annoys me).
+
+You can see a working version [here](https://carldoleolundgren.github.io/pokemon-memory-game/), with the big caveat that it is NOT complete. 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

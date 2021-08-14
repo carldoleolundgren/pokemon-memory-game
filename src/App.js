@@ -13,7 +13,6 @@ function App() {
     return Math.floor(Math.random() * (898 - 1) + 1);
   }
 
-  
   async function getAllPokemon() {
     let pokemonArr = []
     let numOfRounds = 1;
@@ -69,17 +68,28 @@ function App() {
   }
 
   function updateClickedState(name, currentPokemonCopy) {
+    // store initial value, asking "was this pokemon already clicked?"
+    let pokemonAlreadyClicked = currentPokemonCopy.find(p => p.name === name).hasBeenClicked
+    
+    // in any case, now it has been clicked, so update the obj to reflect that
     currentPokemonCopy.find(p => p.name === name).hasBeenClicked = true
-    console.log(currentPokemonCopy)
-
+    
+    // set state with the new object values
     setCurrentPokemon(currentPokemonCopy)
+
+    // return the initial value for use in updateScore()
+    return pokemonAlreadyClicked
   }
 
-  function updateScore(name) {
+  function updateScore(pokemonAlreadyClicked) {
     let current = scores.current
     let high = scores.high
 
-    current ++
+    if (pokemonAlreadyClicked === false) {
+      current ++
+    } else {
+      current = 0
+    }
 
     if (current > high) {
       high = current
@@ -93,8 +103,8 @@ function App() {
 
   function handleClickOnPokemon(name) {
     let currentPokemonCopy = randomizePokemonOrder()
-    updateClickedState(name, currentPokemonCopy)
-    updateScore(name)
+    let pokemonAlreadyClicked = updateClickedState(name, currentPokemonCopy)
+    updateScore(pokemonAlreadyClicked)
   }
 
   useEffect(() => {
